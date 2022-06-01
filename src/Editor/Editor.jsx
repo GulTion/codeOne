@@ -6,11 +6,21 @@ import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/theme-solarized_dark"
 import "ace-builds/src-noconflict/ext-language_tools";
 import Output from './Output';
+import { runRequest } from '../Manager/Request';
 
 export default function Editor() {
   const [out, setOut] = useState(false)
   const [ev, setEv] = useState("")
+  const [output, setOutput] = useState({})
   const handleOutput = ()=>{
+    if(!out){
+      // console.log("CODE");
+      runRequest(ev).then(data=>{
+        console.log(data);
+      }).catch(e=>{
+        console.error(e)
+      })
+    }
 setOut(k=>!k)
   }
   const handleChange = (e)=>{
@@ -38,7 +48,7 @@ setOut(k=>!k)
       <SwipeableDrawer  />;
       
       <RunButton toggle={out} onClick={handleOutput}></RunButton>
-{out&&<Output ></Output>}
+{out&&<Output output={output}></Output>}
     </Box>
   )
 }

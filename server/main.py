@@ -33,20 +33,23 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-# CORS(app, origins="*")
+CORS(app, origins="*")
 
 
 @app.route("/")
 def hello_world():
     return ({"name":3})
 
-@app.route("/run", methods=['POST','GET'])
+@app.route("/run", methods=['POST','GET', 'OPTIONS'])
 def runCode():
-    if request.method=='POST':
-        body = request.get_json()
-        return requests.post("https://onecompiler.com/api/code/exec",json=body).json()
-    else:
-        return "GET"
+    # if request.method=='POST':
+        content_type = request.headers.get('content-type')
+        if (content_type == 'application/json'):
+            json = request.json
+            # return json
+            return requests.post("https://onecompiler.com/api/code/exec",json=json).json()
+    # else:
+    #     return "GET"
     
 
 if __name__ =="__main__":
