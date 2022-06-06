@@ -1,81 +1,88 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import FolderOpenIcon from '@mui/icons-material/FolderOpen';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import Skeleton from '@mui/material/Skeleton';
-// import { styled } from '@mui/material/styles';
-import { grey } from '@mui/material/colors';
-// import styled from '@emotion/styled';
+import React from "react";
+// import DeleteIcon from "@mui/icons-material/Delete"
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+import Drawe from "react-modern-drawer";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import FExplorer from "./FExplorer";
+import "react-modern-drawer/dist/index.css";
+import SaveIcon from "@mui/icons-material/Save";
+import { Saver } from "../Manager/tools";
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import { store } from "../App";
+import { connect } from "react-redux";
 
+export default connect((state) => ({ input: state.input }))(function Header({
+  onRun,
+  input,
+}) {
+  const [isOpen, setOpen] = React.useState(false);
+  const [isFile, setFile] = React.useState(false);
+  const [isInput, setInput] = React.useState(false);
+  const EditInput = (e) => {
+    store.dispatch({ type: "EDIT_INPUT", data: e.target.value });
+  };
+  const handleOen = () => {
+    setOpen(!isOpen);
+  };
+  const handleInput = () => {
+    setInput(!isInput);
+  };
 
-const styled = StyleSheet.create({
-  box:{
-    width: "65px",
-    backgroundColor: grey[900],
-  },
-  root:{
-
-  }
-})
-
-export default function Header() {
-  const [open, setOpen] = React.useState(false);
-
-  const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
+  const handleFile = () => {
+    setFile(!isFile);
   };
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static"  >
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={toggleDrawer(true)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            CodeOne
-          </Typography>
-  
-            <IconButton      size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            >
-            <FolderOpenIcon />
-            </IconButton>
+    <>
+      <Drawe
+        open={isOpen}
+        onClose={handleOen}
+        direction="left"
+        enableOverlay={true}
+      >
+        <h1>Options</h1>
+      </Drawe>
 
-        </Toolbar>
-      </AppBar>
-      <SwipeableDrawer
-        // container={document.body}
-        style={styled.box}
-        anchor="left"
-        open={open}
-        onClose={toggleDrawer(false)}
-        onOpen={toggleDrawer(true)}
+      <Drawe
+        open={isFile}
+        onClose={handleFile}
+        direction="right"
+        enableOverlay={true}
+      >
+        <FExplorer></FExplorer>
+      </Drawe>
+      <Drawe
+        open={isInput}
+        onClose={handleInput}
+        direction="bottom"
+        enableOverlay={true}
+      >
+        <textarea
+          className="EditInput"
+          value={input}
+          onChange={EditInput}
+        ></textarea>
+      </Drawe>
 
-        
-        ModalProps={{
-          keepMounted: true,
-        }}
-        ><Box style={styled.box}>
-          
-        </Box>
-       
-       
-      </SwipeableDrawer>
-    </Box>
+      <div className="Header flex space-between">
+        <div className="flex">
+          <MenuOpenIcon onClick={handleOen}></MenuOpenIcon>
+        </div>
+        <div className="flex center">
+          <SaveIcon onClick={Saver} className="Icons" />
+          <FolderOpenIcon
+            className="Icons"
+            onClick={handleFile}
+          ></FolderOpenIcon>
+          <DriveFileRenameOutlineIcon
+            onClick={handleInput}
+          ></DriveFileRenameOutlineIcon>
+          <PlayArrowIcon
+            onClick={onRun}
+            className="Icons PlayArrowIcon"
+          ></PlayArrowIcon>
+        </div>
+      </div>
+    </>
   );
-}
+});

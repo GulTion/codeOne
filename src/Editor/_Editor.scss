@@ -1,9 +1,38 @@
-.Output{
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    font-size: 18px;
-    z-index: 10;
+.Output {
+  position: fixed;
+  // top: 0;
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+  z-index: 10;
+  pre {
     margin: 0;
+    padding: 10px;
+    overflow: scroll;
+
+    // word-wrap: break-word;
+    word-break: break-all;
+    width: calc(100vw - 20px);
+    height: calc(100% - 20px);
+    font-size: 18px;
+  }
+}
+
+.Editor {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  .ShortSym {
+    width: 100%;
+    background-color: red;
+  }
+}
+
+.EditInput {
+  border: none;
+  padding: 10px;
+  width: calc(100vw - 20px);
+  height: calc(100% - 20px);
+  font-size: 18px;
+  overflow: scroll;
 }
