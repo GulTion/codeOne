@@ -91,9 +91,12 @@ const handleProduce = (state = store, action) => {
   const { type, data } = action;
   switch (type) {
     case "INIT":
-      state.file = action.data.file;
-      state.input = action.data.input;
-      state.files = action.data.files;
+      if (data) {
+        state.file = action.data.file;
+        state.input = action.data.input;
+        state.files = action.data.files;
+      }
+
       break;
     case "SAVE_FILE":
       if (1) {
