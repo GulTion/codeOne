@@ -1,3 +1,4 @@
+import { AccountBalanceSharp } from "@mui/icons-material";
 import produce from "immer";
 import { createStore } from "redux";
 
@@ -92,9 +93,13 @@ const handleProduce = (state = store, action) => {
   switch (type) {
     case "INIT":
       if (data) {
-        state.file = action.data.file;
-        state.input = action.data.input;
-        state.files = action.data.files;
+        try {
+          state.file = action.data.file;
+          state.input = action.data.input;
+          state.files = action.data.files;
+        } catch (e) {
+          console.log(e);
+        }
       }
 
       break;
