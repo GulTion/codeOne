@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Switch,
-  Link,
-} from "react-router-dom";
-import CodeIcon from "@mui/icons-material/Code";
-import BottomTab from "./Chemistry/BottomTab";
+// import {
+//   BrowserRouter as Router,
+//   Route,
+//   Routes,
+//   Switch,
+//   Link,
+// } from "react-router-dom";
+// import CodeIcon from "@mui/icons-material/Code";
+// import BottomTab from "./Chemistry/BottomTab";
 import Editor from "./Editor/Editor";
 import "./Chemistry/_Chemistry.scss";
 import { createStore } from "redux";
@@ -27,11 +27,12 @@ export default function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        <Routes>
-          <Route path="settings/" element={<h1>Settings</h1>} />
-          <Route path="run/" element={<h1>Settings</h1>} />
-          <Route exact path="/" element={<Editor />} />
-        </Routes>
+        {/* <Routes> */}
+
+        <Editor />
+
+        {/* <Route exact path="/" element={<Editor />} /> */}
+        {/* </Routes> */}
 
         {/* <CodeIcon /> */}
       </div>
