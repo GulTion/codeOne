@@ -1,4 +1,6 @@
-body{
-    margin: 0;
-    padding: 0;
+@import "codemirror/lib/codemirror.css";
+@import "codemirror/theme/material.css";
+body {
+  margin: 0;
+  padding: 0;
 }
