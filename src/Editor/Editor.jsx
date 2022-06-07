@@ -74,6 +74,7 @@ export default connect((state) => ({ file: state.file }))(function Editor({
         width="100%"
         fontSize={17}
         height="90vh"
+        disabled={true}
         wrapEnabled={true}
         mode={langToEditorMap[file.language] || file.language}
         theme="solarized_dark"
