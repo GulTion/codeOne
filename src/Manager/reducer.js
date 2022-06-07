@@ -8,83 +8,11 @@ const store = {
   files: {
     type: "folder",
     name: "/",
-    files: [
-      {
-        id: "9ba95c30a3",
-        type: "file",
-        name: "main.py",
-        location: [0],
-        address: ["main.py"],
-      },
-      {
-        type: "folder",
-        name: "Chemistry",
-        files: [
-          {
-            id: "7a05f8cff8",
-            type: "file",
-            name: "main.py",
-            address: ["Chemistry", "main.py"],
-            location: [1, 0],
-          },
-          {
-            id: "ce1e9433e2",
-            type: "file",
-            name: "app.py",
-            content: "3",
-            address: ["Chemistry", "app.py"],
-            location: [1, 1],
-          },
-          {
-            type: "folder",
-            name: "abc",
-            files: [
-              {
-                id: "b2d753ed2e",
-                type: "file",
-                name: "main.py",
-                address: ["Chemistry", "abc", "main.py"],
-                location: [1, 2, 0],
-              },
-              {
-                type: "folder",
-                name: "Chemistry",
-                files: [
-                  {
-                    id: "9278e75d24",
-                    type: "file",
-                    name: "main.py",
-                    content: "5",
-                    address: ["Chemistry", "abc", "Chemistry", "main.py"],
-                    location: [1, 2, 1, 0],
-                  },
-                  {
-                    id: "792f469858",
-                    type: "file",
-                    name: "app.py",
-                    content: "6",
-                    address: ["Chemistry", "abc", "Chemistry", "app.py"],
-                    location: [1, 2, 1, 1],
-                  },
-                ],
-                address: ["Chemistry", "abc", "Chemistry"],
-                location: [1, 2, 1],
-                id: "f0f3ff1849",
-              },
-            ],
-            address: ["Chemistry", "abc"],
-            location: [1, 2],
-            id: "0ddb4b73a2",
-          },
-        ],
-        address: ["Chemistry"],
-        location: [1],
-        id: "82d8afe2ca",
-      },
-    ],
+    files: [],
     address: [],
     location: [],
     id: "24347ef141",
+    size: 0,
   },
 };
 
@@ -123,6 +51,37 @@ const handleProduce = (state = store, action) => {
 
     case "EDIT_FILE":
       state.file.content = action.data;
+
+      break;
+
+    case "ADD_FILE":
+      console.log(data);
+      if (1) {
+        let strSize = data.strLocation + ".size += 1";
+        let strLocation = data.strLocation + ".files.push(data)";
+
+        let files = state.files;
+        eval(strLocation);
+        eval(strSize);
+        state.file = action.data;
+        document.setEv(action.data);
+      }
+      break;
+
+    case "DELETE_ANY":
+      console.log(data);
+      if (1) {
+        let str = data.pstrLocation;
+        let id = data.id;
+        // let files = state.files;
+
+        str = `state.${str}.files=state.${str}.files.filter(e=>e.id!=="${id}")`;
+        // console.log(str);
+        eval(str);
+        // state.file = action.data;
+        // document.setEv(action.data);
+      }
+
       break;
 
     case "EDIT_INPUT":
