@@ -6,7 +6,7 @@ export function runRequest({ file }) {
     RUN_SERVER,
     {
       properties: {
-        language: "python",
+        language: file.language,
         files: [file],
         stdin: store.getState().input,
       },

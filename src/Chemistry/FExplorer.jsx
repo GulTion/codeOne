@@ -8,9 +8,18 @@ import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 // import { nanoid } from "nanoid";
 import { nanoid } from "../Manager/tools";
-
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 // export const str = JSON.parse(localStorage.getItem("files"));
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+
+const langMapImage = {
+  python: "/icons/py.svg",
+  javascript: "/icons/js.svg",
+  cpp: "/icons/cpp.png",
+  java: "/icons/java.svg",
+  c: "/icons/c.png",
+};
 const File = ({ file, onFileClick, currFile }) => {
   const handle = () => {
     onFileClick(file);
@@ -21,7 +30,15 @@ const File = ({ file, onFileClick, currFile }) => {
       style={{ background: file.id === currFile.id ? "#d1d1d1" : "" }}
       onClick={handle}
     >
-      <InsertDriveFileIcon style={{ color: "blue" }} />
+      {file.language ? (
+        <img
+          src={langMapImage[file.language]}
+          className={"File_img"}
+          alt={file.name}
+        />
+      ) : (
+        <InsertDriveFileIcon className="File_img" style={{ color: "blue" }} />
+      )}
       {file.name}
     </div>
   );
@@ -35,17 +52,29 @@ const Folder = ({ folder, currFile, onFileClick }) => {
   const handle = () => {
     onFileClick(folder);
   };
+  const [fold, setFold] = useState(false);
+  const handleFold = (p) => {
+    return () => {
+      setFold(p);
+    };
+  };
   return (
     <div className="Folder flex col">
       <div
         className="Folder_name flex "
-        onClick={handle}
         style={{ background: folder.id === currFile.id ? "#d1d1d1" : "" }}
       >
-        <FolderIcon style={{ color: "grey" }} />
-        {folder.name}
+        {fold ? (
+          <KeyboardArrowRightIcon onClick={handleFold(false)} />
+        ) : (
+          <KeyboardArrowDownIcon onClick={handleFold(true)} />
+        )}
+        <div className="flex" onClick={handle}>
+          <FolderIcon style={{ color: "grey" }} />
+          {folder.name}
+        </div>
       </div>
-      <div className="Folder_body">
+      <div className="Folder_body" style={fold ? { display: "none" } : {}}>
         {folder.files
           .filter((e) => e.permission !== 0)
           .map((file) => {
@@ -94,7 +123,7 @@ const calculateLocation = (folder) => {
 
 const FFOptions = ({ file }) => {
   const addFile = () => {
-    let name = "main.js";
+    let name = prompt("Enter Name: ");
 
     store.dispatch({
       type: "ADD_FILE",
@@ -119,7 +148,9 @@ const FFOptions = ({ file }) => {
   };
 
   const addFolder = () => {
-    let name = "main.js";
+    // let name = "main.js";
+    let name = prompt("Enter Name: ");
+
     store.dispatch({
       type: "ADD_FILE",
       data: {

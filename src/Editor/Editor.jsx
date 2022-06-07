@@ -3,6 +3,10 @@ import React, { useEffect, useState } from "react";
 import AceEditor from "react-ace";
 // import RunButton from '../Chemistry/RunButton';
 import "ace-builds/src-noconflict/mode-python";
+import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/mode-c_cpp";
+import "ace-builds/src-noconflict/mode-javascript";
+
 import "ace-builds/src-noconflict/theme-solarized_dark";
 import "ace-builds/src-noconflict/ext-language_tools";
 import Output from "./Output";
@@ -13,6 +17,10 @@ import Header from "../Chemistry/Header";
 import { connect } from "react-redux";
 import { store } from "../App";
 
+const langToEditorMap = {
+  cpp: "c_cpp",
+  c: "c_cpp",
+};
 export default connect((state) => ({ file: state.file }))(function Editor({
   file,
 }) {
@@ -67,7 +75,7 @@ export default connect((state) => ({ file: state.file }))(function Editor({
         fontSize={17}
         height="90vh"
         wrapEnabled={true}
-        mode="python"
+        mode={langToEditorMap[file.language] || file.language}
         theme="solarized_dark"
         placeholder="Code Here"
         value={file.content}
