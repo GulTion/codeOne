@@ -71,11 +71,11 @@ const handleProduce = (state = store, action) => {
     case "DELETE_ANY":
       console.log(data);
       if (1) {
-        let str = data.pstrLocation;
-        let id = data.id;
+        let str = data.strLocation;
+        // let id = data.id;
         // let files = state.files;
 
-        str = `state.${str}.files=state.${str}.files.filter(e=>e.id!=="${id}")`;
+        str = `state.${str}.permission = 0`;
         // console.log(str);
         eval(str);
         // state.file = action.data;

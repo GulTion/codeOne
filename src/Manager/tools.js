@@ -1,6 +1,6 @@
 import { customAlphabet } from "nanoid";
 import { store } from "../App";
-const nanoid = customAlphabet("1234567890abcdef", 10);
+export const nanoid = customAlphabet("1234567890abcdef", 10);
 // model.id = nanoid() //=> "4f90d13a42"
 export const ad_loBuilder = (f, ad, lo) => {
   //   console.log(f);
@@ -19,30 +19,43 @@ export const ad_loBuilder = (f, ad, lo) => {
   }
 };
 
-export const Saver = () => {
-  //   console.log(file);
+export const locator = (cb) => {
+  let p;
   document.setEv((k) => {
-    console.log(k);
     if (k.id) {
       let str = "files";
-
+      let pstr = "files";
       k?.location.forEach((e, i) => {
         str += `.files[${e}]`;
+        if (k.location.length - 1 > i) {
+          pstr += `.files[${e}]`;
+        }
       });
-      console.log(str);
-      str += `.content = action.data.content;`;
+
       const content = k.content;
-      // eval(str);
-      // t.content = k.content;
-      store.dispatch({
-        type: "SAVE_FILE",
-        data: {
-          content,
-          location: str,
-        },
-      });
+      if (cb) cb({ content, location: str, plocation: pstr });
+      p = { content, location: str, plocation: pstr };
       return k;
     }
+  });
+  return p;
+};
+document.locator = locator;
+
+export const Saver = () => {
+  //   console.log(file);
+
+  locator((k) => {
+    let str = k.location;
+    str += `.content = action.data.content;`;
+    const content = k.content;
+    store.dispatch({
+      type: "SAVE_FILE",
+      data: {
+        content,
+        location: str,
+      },
+    });
   });
 };
 

@@ -1,15 +1,15 @@
-def insertionSort(A):
-    for j in range(2, len(A)):
-        key = A[j]
-        i = j-1
-        while i>0 and A[i]>key:
-            A[i+1]=A[i]
-            i = i-1
-        A[i+1]=key
+class Student:
+    def __init__(self, orig=None):
+        if orig is None:
+            self.non_copy_constructor()
+        else:
+            self.copy_constructor(orig)
 
-    return A
+    def say(self):
+        print(self.name)
 
 
-a = [12, 23,45,53,43]
-
-print(insertionSort(a))
+s1 = Student("G Ulshan")
+s1.say()
+s2 = Student(s1)
+s2.say()
