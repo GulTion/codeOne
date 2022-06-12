@@ -55,6 +55,7 @@ export default connect((state) => ({ file: state.file }))(function Editor({
     // setEv((k) => ({ ...k, content: e }));
     store.dispatch({ type: "EDIT_FILE", data: e });
   };
+  document.handleChange = handleChange;
   return (
     <div className="Editor" width={"100%"}>
       {/* <Header></Header> */}

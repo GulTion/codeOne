@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import "./App.css";
-// import {
-//   BrowserRouter as Router,
-//   Route,
-//   Routes,
-//   Switch,
-//   Link,
-// } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Switch,
+  Link,
+} from "react-router-dom";
 // import CodeIcon from "@mui/icons-material/Code";
 // import BottomTab from "./Chemistry/BottomTab";
 import Editor from "./Editor/Editor";
@@ -15,6 +15,7 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { reducer } from "./Manager/reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
+import ShareEditor from "./Editor/ShareEditor";
 export const store = createStore(reducer, composeWithDevTools());
 console.log(store.getState());
 export default function App() {
@@ -27,12 +28,12 @@ export default function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        {/* <Routes> */}
+        <Routes>
+          {/* <Editor /> */}
 
-        <Editor />
-
-        {/* <Route exact path="/" element={<Editor />} /> */}
-        {/* </Routes> */}
+          <Route exact path="/" element={<Editor />} />
+          <Route path="/share/:id/:location" element={<ShareEditor />} />
+        </Routes>
 
         {/* <CodeIcon /> */}
       </div>

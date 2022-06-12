@@ -61,6 +61,7 @@ export default connect((state) => ({ input: state.input }))(function Header({
           className="EditInput"
           value={input}
           onChange={EditInput}
+          placeholder="Enter Inputs"
         ></textarea>
       </Drawe>
 

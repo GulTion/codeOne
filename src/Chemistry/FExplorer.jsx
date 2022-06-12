@@ -26,8 +26,8 @@ const File = ({ file, onFileClick, currFile }) => {
   };
   return (
     <div
-      className="File flex"
-      style={{ background: file.id === currFile.id ? "#d1d1d1" : "" }}
+      // className="File flex"
+      className={`File flex ${file.id === currFile.id ? "FileActive" : ""}`}
       onClick={handle}
     >
       {file.language ? (
@@ -61,8 +61,9 @@ const Folder = ({ folder, currFile, onFileClick }) => {
   return (
     <div className="Folder flex col">
       <div
-        className="Folder_name flex "
-        style={{ background: folder.id === currFile.id ? "#d1d1d1" : "" }}
+        className={`Folder_name flex ${
+          folder.id === currFile.id ? "FActive" : ""
+        }`}
       >
         {fold ? (
           <KeyboardArrowRightIcon onClick={handleFold(false)} />
