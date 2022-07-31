@@ -20,10 +20,11 @@ export const store = createStore(reducer, composeWithDevTools());
 console.log(store.getState());
 export default function App() {
   useEffect(() => {
-    store.dispatch({
-      type: "INIT",
-      data: JSON.parse(localStorage.getItem("state")),
-    });
+    if (localStorage.getItem("state"))
+      store.dispatch({
+        type: "INIT",
+        data: JSON.parse(localStorage.getItem("state")),
+      });
   }, []);
   return (
     <Provider store={store}>
@@ -32,7 +33,10 @@ export default function App() {
           {/* <Editor /> */}
 
           <Route exact path="/" element={<Editor />} />
-          <Route path="/share/:id/:location" element={<ShareEditor />} />
+          <Route
+            path="/share/:id/:fileid/:location"
+            element={<ShareEditor />}
+          />
         </Routes>
 
         {/* <CodeIcon /> */}

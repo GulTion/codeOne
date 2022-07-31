@@ -26,7 +26,7 @@
 # from  import request
 # from ntpath import join
 from distutils.log import debug
-from flask import Flask,request
+from flask import Flask, request
 import json
 import requests
 from flask_cors import CORS
@@ -38,19 +38,20 @@ CORS(app, origins="*")
 
 @app.route("/")
 def hello_world():
-    return ({"name":3})
+    return ({"name": 3})
 
-@app.route("/run", methods=['POST','GET', 'OPTIONS'])
+
+@app.route("/run", methods=['POST', 'GET', 'OPTIONS'])
 def runCode():
     # if request.method=='POST':
-        content_type = request.headers.get('content-type')
-        if (content_type == 'application/json'):
-            json = request.json
-            # return json
-            return requests.post("https://onecompiler.com/api/code/exec",json=json).json()
+    content_type = request.headers.get('content-type')
+    if (content_type == 'application/json'):
+        json = request.json
+        # return json
+        return requests.post("https://onecompiler.com/api/code/exec", json=json).json()
     # else:
     #     return "GET"
-    
 
-if __name__ =="__main__":
+
+if __name__ == "__main__":
     app.run(debug=True)

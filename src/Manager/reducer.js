@@ -1,6 +1,8 @@
 import { AccountBalanceSharp } from "@mui/icons-material";
 import produce from "immer";
+import { useParams } from "react-router";
 import { createStore } from "redux";
+import { ad_loBuilder, locationToString } from "./tools";
 
 const store = {
   input: "",
@@ -14,10 +16,13 @@ const store = {
     id: "24347ef141",
     size: 0,
   },
+  share: {},
 };
 
 const handleProduce = (state = store, action) => {
   const { type, data } = action;
+  // let param = useParams()
+
   switch (type) {
     case "INIT":
       if (data) {
@@ -36,6 +41,9 @@ const handleProduce = (state = store, action) => {
         if (state.file.id) {
           //   console.log(action.data);
           let files = state.files;
+          // if (!data.mode) {
+          //   files = state.share[data.id];
+          // }
           eval(action.data.location);
           state.file.content = action.data.content;
           localStorage.setItem("state", JSON.stringify(state));
@@ -45,6 +53,7 @@ const handleProduce = (state = store, action) => {
       break;
     case "SET_FILE":
       state.file = action.data;
+      // if(data.mode)
       document.setEv(action.data);
 
       break;
@@ -84,8 +93,29 @@ const handleProduce = (state = store, action) => {
 
       break;
 
+    case "STORE_SHARE_FILE":
+      state.share[data.from] = data.files;
+      break;
+
     case "EDIT_INPUT":
       state.input = data;
+      break;
+
+    case "EDIT_FILE_DEEP":
+      if (1) {
+        let files = state.files;
+        if (data.share) {
+          files = state.share;
+        }
+        let str =
+          locationToString(data.location).str + `.content = data.content`;
+        if (state.file.id === data.fileid) {
+          state.file.content = data.content;
+        }
+
+        eval(str);
+        // console.log(data);
+      }
       break;
     default:
       return state;

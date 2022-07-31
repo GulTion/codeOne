@@ -2,11 +2,17 @@ import { customAlphabet } from "nanoid";
 import { store } from "../App";
 export const nanoid = customAlphabet("1234567890abcdef", 10);
 // model.id = nanoid() //=> "4f90d13a42"
-export const ad_loBuilder = (f, ad, lo) => {
+export const ad_loBuilder = (f, ad, lo, mode = true) => {
   //   console.log(f);
   if (f.type === "folder") {
-    f.address = ad;
-    f.location = lo;
+    if (mode) {
+      f.address = ad;
+      f.location = lo;
+    } else {
+      f._address = ad;
+      f._location = lo;
+    }
+
     f.id = nanoid();
     f.files.forEach((e, i) => {
       ad_loBuilder(e, [...ad, e.name], [...lo, i]);
@@ -14,8 +20,16 @@ export const ad_loBuilder = (f, ad, lo) => {
   } else {
     f.id = nanoid();
 
-    f.address = ad;
-    f.location = lo;
+    if (mode) {
+      f.address = ad;
+      f.location = lo;
+    } else {
+      f._address = ad;
+      f._location = lo;
+    }
+
+    // f.address = ad;
+    // f.location = lo;
   }
 };
 
@@ -23,14 +37,7 @@ export const locator = (cb) => {
   let p;
   document.setEv((k) => {
     if (k.id) {
-      let str = "files";
-      let pstr = "files";
-      k?.location.forEach((e, i) => {
-        str += `.files[${e}]`;
-        if (k.location.length - 1 > i) {
-          pstr += `.files[${e}]`;
-        }
-      });
+      const { str, pstr } = locationToString(k.location);
 
       const content = k.content;
       if (cb) cb({ content, location: str, plocation: pstr });
@@ -40,9 +47,22 @@ export const locator = (cb) => {
   });
   return p;
 };
+
+export const locationToString = (location) => {
+  let str = "files";
+  let pstr = "files";
+  location.forEach((e, i) => {
+    str += `.files[${e}]`;
+    if (location.length - 1 > i) {
+      pstr += `.files[${e}]`;
+    }
+  });
+  return { str, pstr };
+};
+
 document.locator = locator;
 
-export const Saver = () => {
+export const Saver = ({ mode, id }) => {
   //   console.log(file);
 
   locator((k) => {
@@ -54,6 +74,8 @@ export const Saver = () => {
       data: {
         content,
         location: str,
+        mode,
+        id,
       },
     });
   });

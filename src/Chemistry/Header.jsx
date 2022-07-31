@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 export default connect((state) => ({ input: state.input }))(function Header({
   onRun,
   input,
+  mode,
 }) {
   const [isOpen, setOpen] = React.useState(false);
   const [isFile, setFile] = React.useState(false);
@@ -49,7 +50,7 @@ export default connect((state) => ({ input: state.input }))(function Header({
         direction="right"
         enableOverlay={true}
       >
-        <FExplorer></FExplorer>
+        <FExplorer mode={mode}></FExplorer>
       </Drawe>
       <Drawe
         open={isInput}
@@ -70,7 +71,7 @@ export default connect((state) => ({ input: state.input }))(function Header({
           <MenuOpenIcon onClick={handleOen}></MenuOpenIcon>
         </div>
         <div className="flex center">
-          <SaveIcon onClick={Saver} className="Icons" />
+          {mode && <SaveIcon onClick={Saver} className="Icons" />}
           <FolderOpenIcon
             className="Icons"
             onClick={handleFile}

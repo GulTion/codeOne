@@ -16,14 +16,19 @@ import Header from "../Chemistry/Header";
 
 import { connect } from "react-redux";
 import { store } from "../App";
+import { useParams } from "react-router";
 
+let id = localStorage.getItem("id");
 const langToEditorMap = {
   cpp: "c_cpp",
   c: "c_cpp",
 };
+
 export default connect((state) => ({ file: state.file }))(function Editor({
   file,
+  mode = true,
 }) {
+  const param = useParams();
   const [out, setOut] = useState(false);
   const [ev, setEv] = useState(file);
   const [output, setOutput] = useState({});
@@ -51,26 +56,29 @@ export default connect((state) => ({ file: state.file }))(function Editor({
   };
 
   const handleChange = (e) => {
-    // console.log(e);
-    // setEv((k) => ({ ...k, content: e }));
+    if (!mode) {
+      document.socket.emit(id, {
+        to: param.id,
+        cmd: "EDIT_CONTENT",
+        // ...file,
+
+        location: file.location,
+        fileid: file.id,
+        content: e,
+      });
+
+      // console.log(file);
+      // console.log(param);
+    }
     store.dispatch({ type: "EDIT_FILE", data: e });
   };
   document.handleChange = handleChange;
   return (
     <div className="Editor" width={"100%"}>
       {/* <Header></Header> */}
-      <Header onRun={handleOutput}></Header>
+      <Header onRun={handleOutput} mode={mode}></Header>
       {/* <Drawer></Drawer> */}
 
-      {/* <CodeMirror
-        value={ev.content}
-        options={{
-          mode: "javascript",
-          theme: "material",
-          lineNumbers: true,
-        }}
-        onChange={(editor, data, value) => {}}
-      /> */}
       <AceEditor
         width="100%"
         fontSize={17}

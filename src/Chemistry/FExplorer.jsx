@@ -12,6 +12,8 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 // export const str = JSON.parse(localStorage.getItem("files"));
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import GroupsIcon from "@mui/icons-material/Groups";
+import { Link, useParams } from "react-router-dom";
 
 const langMapImage = {
   python: "/icons/py.svg",
@@ -122,7 +124,7 @@ const calculateLocation = (folder) => {
   return [...folder.location, folder.size];
 };
 
-const FFOptions = ({ file }) => {
+const FFOptions = ({ file, mode }) => {
   const addFile = () => {
     let name = prompt("Enter Name: ");
 
@@ -141,11 +143,6 @@ const FFOptions = ({ file }) => {
         permission: 1, // {0:noReadUser, 1:readWriteAll, 2: readWriteUser}
       },
     });
-
-    // store.dispatch({
-    //   type: "SET_FILE",
-    //   data: file,
-    // });
   };
 
   const addFolder = () => {
@@ -182,12 +179,27 @@ const FFOptions = ({ file }) => {
     });
   };
 
+  const handleShare = () => {
+    let shareLink = `/share/${localStorage.getItem("id")}/${
+      file.id
+    }/${JSON.stringify(file.location)}`;
+    console.log(shareLink);
+    return shareLink;
+  };
+
   if (file.type === "folder")
     return (
       <div className="FFOptions flex space-around">
-        <NoteAddIcon onClick={addFile} />
-        <CreateNewFolderIcon onClick={addFolder} />
-        <DeleteForeverIcon onClick={deleteFolder} />
+        {mode && (
+          <>
+            <NoteAddIcon onClick={addFile} />
+            <CreateNewFolderIcon onClick={addFolder} />
+            <DeleteForeverIcon onClick={deleteFolder} />
+            {/* <Link to={}> */}
+            <GroupsIcon onClick={handleShare}></GroupsIcon>
+          </>
+        )}
+        {/* </Link> */}
       </div>
     );
   else if (file.type === "file") {
@@ -199,21 +211,37 @@ const FFOptions = ({ file }) => {
   }
 };
 
+let myid = localStorage.getItem("id");
 export default connect((state) => ({
   file: state.file,
   files: state.files,
-}))(function FExplorer({ file, files }) {
+  share: state.share,
+}))(function FExplorer({ file, files, mode, share }) {
   // const [currFile, setFile] = useState({});
-
+  const param = useParams();
   const handleFileClick = (file, ad) => {
-    // console.log(file.address);
+    // console.log(file.address);i
     // setFile(file);
+    store.dispatch({ type: "SET_FILE", data: file });
+
     try {
-      Saver();
+      if (mode) {
+        Saver({ mode, id: param.id });
+      } else {
+        document.socket.emit(myid, {
+          to: param.id,
+          from: myid,
+          cmd: "ASK_FILES",
+          subcmd: "SINGLE_FILE",
+          ...file,
+
+          location: JSON.stringify(file.location),
+        });
+      }
     } catch (e) {
       console.log(e);
     }
-    store.dispatch({ type: "SET_FILE", data: file });
+
     // document.setEv(file);
     // localStorage.setItem("file", JSON.stringify(file));
   };
@@ -227,11 +255,11 @@ export default connect((state) => ({
       <div className="FExplorer_mid col flex space-between">
         {/* <div className="flex">{file.address?.join("/")}</div> */}
         {/* <div className="flex">Hey</div> */}
-        <FFOptions file={file} />
+        <FFOptions file={file} mode={mode} />
       </div>
       <div className="FExplorer_body">
         <Folder
-          folder={files}
+          folder={mode ? files : share[param.id] || files}
           onFileClick={handleFileClick}
           currFile={file}
           // fileAddress={["."]}
