@@ -14,6 +14,8 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import GroupsIcon from "@mui/icons-material/Groups";
 import { Link, useParams } from "react-router-dom";
+import Drawe from "react-modern-drawer";
+import QRCode from "react-qr-code";
 
 const langMapImage = {
   python: "/icons/py.svg",
@@ -124,32 +126,36 @@ const calculateLocation = (folder) => {
   return [...folder.location, folder.size];
 };
 
-const FFOptions = ({ file, mode }) => {
+const FFOptions = ({ file, mode, handleQr, setqrOpen }) => {
   const addFile = () => {
+    let strLocation = locator().location;
+    console.log(strLocation);
     let name = prompt("Enter Name: ");
 
-    store.dispatch({
-      type: "ADD_FILE",
-      data: {
-        type: "file",
-        name,
-        language: languageSelector(name),
-        id: nanoid(),
-        content: "",
-        location: calculateLocation(file),
-        address: [...file.address, name],
-        strLocation: locator().location,
-        size: 0,
-        permission: 1, // {0:noReadUser, 1:readWriteAll, 2: readWriteUser}
-      },
+    locator((l) => {
+      let data = {
+        type: "ADD_FILE",
+        data: {
+          type: "file",
+          name,
+          language: languageSelector(name),
+          id: nanoid(),
+          content: "",
+          location: calculateLocation(file),
+          address: [...file.address, name],
+          strLocation: l.location,
+          size: 0,
+          permission: 1, // {0:noReadUser, 1:readWriteAll, 2: readWriteUser}
+        },
+      };
+      store.dispatch(data);
     });
   };
 
   const addFolder = () => {
     // let name = "main.js";
     let name = prompt("Enter Name: ");
-
-    store.dispatch({
+    let data = {
       type: "ADD_FILE",
       data: {
         type: "folder",
@@ -164,7 +170,8 @@ const FFOptions = ({ file, mode }) => {
         size: 0,
         permission: 1, // {0:noReadUser, 1:readWriteAll, 2: readWriteUser}
       },
-    });
+    };
+    store.dispatch(data);
   };
 
   const deleteFolder = () => {
@@ -184,6 +191,8 @@ const FFOptions = ({ file, mode }) => {
       file.id
     }/${JSON.stringify(file.location)}`;
     console.log(shareLink);
+    handleQr(shareLink);
+    setqrOpen(true);
     return shareLink;
   };
 
@@ -195,6 +204,7 @@ const FFOptions = ({ file, mode }) => {
             <NoteAddIcon onClick={addFile} />
             <CreateNewFolderIcon onClick={addFolder} />
             <DeleteForeverIcon onClick={deleteFolder} />
+
             {/* <Link to={}> */}
             <GroupsIcon onClick={handleShare}></GroupsIcon>
           </>
@@ -216,7 +226,7 @@ export default connect((state) => ({
   file: state.file,
   files: state.files,
   share: state.share,
-}))(function FExplorer({ file, files, mode, share }) {
+}))(function FExplorer({ file, files, mode, share, Draw }) {
   // const [currFile, setFile] = useState({});
   const param = useParams();
   const handleFileClick = (file, ad) => {
@@ -249,22 +259,30 @@ export default connect((state) => ({
     // ad_loBuilder(str, [], []);
     // console.log(JSON.stringify(str));
   }, []);
+
   return (
-    <div className="FExplorer flex col">
-      <div className="FExplorer_head">File Manager</div>
-      <div className="FExplorer_mid col flex space-between">
-        {/* <div className="flex">{file.address?.join("/")}</div> */}
-        {/* <div className="flex">Hey</div> */}
-        <FFOptions file={file} mode={mode} />
+    <>
+      <div className="FExplorer flex col">
+        <div className="FExplorer_head">File Manager</div>
+        <div className="FExplorer_mid col flex space-between">
+          {/* <div className="flex">{file.address?.join("/")}</div> */}
+          {/* <div className="flex">Hey</div> */}
+          <FFOptions
+            file={file}
+            mode={mode}
+            handleQr={Draw.setqrtext}
+            setqrOpen={Draw.setqrOpen}
+          />
+        </div>
+        <div className="FExplorer_body">
+          <Folder
+            folder={mode ? files : share[param.id] || files}
+            onFileClick={handleFileClick}
+            currFile={file}
+            // fileAddress={["."]}
+          />
+        </div>
       </div>
-      <div className="FExplorer_body">
-        <Folder
-          folder={mode ? files : share[param.id] || files}
-          onFileClick={handleFileClick}
-          currFile={file}
-          // fileAddress={["."]}
-        />
-      </div>
-    </div>
+    </>
   );
 });
