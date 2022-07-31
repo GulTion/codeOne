@@ -132,24 +132,22 @@ const FFOptions = ({ file, mode, handleQr, setqrOpen }) => {
     // console.log(strLocation);
     let name = prompt("Enter Name: ");
 
-    locator((l) => {
-      let data = {
-        type: "ADD_FILE",
-        data: {
-          type: "file",
-          name,
-          language: languageSelector(name),
-          id: nanoid(),
-          content: "",
-          location: calculateLocation(file),
-          address: [...file.address, name],
-          strLocation: l.location,
-          size: 0,
-          permission: 1, // {0:noReadUser, 1:readWriteAll, 2: readWriteUser}
-        },
-      };
-      store.dispatch(data);
-    });
+    let data = {
+      type: "ADD_FILE",
+      data: {
+        type: "file",
+        name,
+        language: languageSelector(name),
+        id: nanoid(),
+        content: "",
+        location: calculateLocation(file),
+        address: [...file.address, name],
+
+        size: 0,
+        permission: 1, // {0:noReadUser, 1:readWriteAll, 2: readWriteUser}
+      },
+    };
+    store.dispatch(data);
   };
 
   const addFolder = () => {
@@ -158,25 +156,23 @@ const FFOptions = ({ file, mode, handleQr, setqrOpen }) => {
 
     let name = prompt("Enter Name: ");
 
-    locator((l) => {
-      let data = {
-        type: "ADD_FILE",
-        data: {
-          type: "folder",
-          name,
-          language: languageSelector(name),
-          id: nanoid(),
-          content: "",
-          location: calculateLocation(file),
-          address: [...file.address, name],
-          strLocation: l.location,
-          size: 0,
-          files: [],
-          permission: 1, // {0:noReadUser, 1:readWriteAll, 2: readWriteUser}
-        },
-      };
-      store.dispatch(data);
-    });
+    let data = {
+      type: "ADD_FILE",
+      data: {
+        type: "folder",
+        name,
+        language: languageSelector(name),
+        id: nanoid(),
+        content: "",
+        location: calculateLocation(file),
+        address: [...file.address, name],
+
+        size: 0,
+        files: [],
+        permission: 1, // {0:noReadUser, 1:readWriteAll, 2: readWriteUser}
+      },
+    };
+    store.dispatch(data);
   };
 
   const deleteFolder = () => {
