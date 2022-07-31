@@ -128,8 +128,8 @@ const calculateLocation = (folder) => {
 
 const FFOptions = ({ file, mode, handleQr, setqrOpen }) => {
   const addFile = () => {
-    let strLocation = locator().location;
-    console.log(strLocation);
+    // let strLocation = locator().location;
+    // console.log(strLocation);
     let name = prompt("Enter Name: ");
 
     locator((l) => {
@@ -154,24 +154,29 @@ const FFOptions = ({ file, mode, handleQr, setqrOpen }) => {
 
   const addFolder = () => {
     // let name = "main.js";
+    // let strLocation = locator().location;
+
     let name = prompt("Enter Name: ");
-    let data = {
-      type: "ADD_FILE",
-      data: {
-        type: "folder",
-        name,
-        // language: languageSelector(name),
-        id: nanoid(),
-        content: "",
-        location: calculateLocation(file),
-        address: [...file.address, name],
-        strLocation: locator().location,
-        files: [],
-        size: 0,
-        permission: 1, // {0:noReadUser, 1:readWriteAll, 2: readWriteUser}
-      },
-    };
-    store.dispatch(data);
+
+    locator((l) => {
+      let data = {
+        type: "ADD_FILE",
+        data: {
+          type: "folder",
+          name,
+          language: languageSelector(name),
+          id: nanoid(),
+          content: "",
+          location: calculateLocation(file),
+          address: [...file.address, name],
+          strLocation: l.location,
+          size: 0,
+          files: [],
+          permission: 1, // {0:noReadUser, 1:readWriteAll, 2: readWriteUser}
+        },
+      };
+      store.dispatch(data);
+    });
   };
 
   const deleteFolder = () => {
@@ -191,7 +196,7 @@ const FFOptions = ({ file, mode, handleQr, setqrOpen }) => {
       file.id
     }/${JSON.stringify(file.location)}`;
     console.log(shareLink);
-    handleQr(shareLink);
+    handleQr(window.location.origin + shareLink);
     setqrOpen(true);
     return shareLink;
   };
