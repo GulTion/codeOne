@@ -66,12 +66,18 @@ const handleProduce = (state = store, action) => {
     case "ADD_FILE":
       console.log(data);
       if (1) {
-        let strSize = data.strLocation + ".size += 1";
-        let strLocation = data.strLocation + ".files.push(data)";
-
         let files = state.files;
-        eval(strLocation);
-        eval(strSize);
+        let pointer = files;
+        data.location.map((e, i) => {
+          if (data.location.length - 1 > i) {
+            pointer = pointer.files[e];
+          }
+        });
+
+        console.log(JSON.stringify(pointer, null, 2));
+        pointer.files.push(data);
+        pointer.size++;
+
         state.file = action.data;
         document.setEv(action.data);
       }
