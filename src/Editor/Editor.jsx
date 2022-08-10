@@ -56,6 +56,7 @@ export default connect((state) => ({ file: state.file }))(function Editor({
   };
 
   const handleChange = (e) => {
+    console.log("EDIT_CONTENT share");
     if (!mode) {
       document.socket.emit(id, {
         to: param.id,
@@ -70,6 +71,16 @@ export default connect((state) => ({ file: state.file }))(function Editor({
       // console.log(file);
       // console.log(param);
     }
+    let connection = store.getState().connection[file.id];
+    document.socket.emit(id, {
+      to: connection,
+      cmd: "EDIT_CONTENT",
+      // ...file,
+
+      location: file.location,
+      fileid: file.id,
+      content: e,
+    });
     store.dispatch({ type: "EDIT_FILE", data: e });
   };
   document.handleChange = handleChange;

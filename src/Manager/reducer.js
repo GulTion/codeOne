@@ -17,6 +17,7 @@ const store = {
     size: 0,
   },
   share: {},
+  connection: {},
 };
 
 const handleProduce = (state = store, action) => {
@@ -36,6 +37,15 @@ const handleProduce = (state = store, action) => {
       }
 
       break;
+
+    case "MAKE_CONNECTION":
+      state.connection[data.file.id] = data.from;
+      break;
+
+    // case "EDIT_ALL_SOCKET":
+
+    //   break;
+
     case "SAVE_FILE":
       if (1) {
         if (state.file.id) {

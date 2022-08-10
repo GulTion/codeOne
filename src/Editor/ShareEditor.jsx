@@ -43,7 +43,15 @@ export default function ShareEditor() {
   const handleAsk = () => {
     let id = localStorage.getItem("id");
 
-    socket.emit(id, { to: a.id, from: id, cmd: "ASK_FILES", ...a });
+    // socket.emit(id, { to: a.id, from: id, cmd: "ASK_FILES", ...a });
+    socket.emit(id, {
+      to: a.id,
+      from: id,
+      cmd: "ASK_FILES",
+      ...a,
+      subcmd: "SINGLE_FILE",
+    });
+
     setSw((s) => !s);
   };
   return sw ? <button onClick={handleAsk}>CONN</button> : <Editor mode={sw} />;

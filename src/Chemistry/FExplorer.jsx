@@ -207,7 +207,6 @@ const FFOptions = ({ file, mode, handleQr, setqrOpen }) => {
             <DeleteForeverIcon onClick={deleteFolder} />
 
             {/* <Link to={}> */}
-            <GroupsIcon onClick={handleShare}></GroupsIcon>
           </>
         )}
         {/* </Link> */}
@@ -217,6 +216,7 @@ const FFOptions = ({ file, mode, handleQr, setqrOpen }) => {
     return (
       <div className="FFOptions flex space-around">
         <DeleteForeverIcon onClick={deleteFolder} />
+        <GroupsIcon onClick={handleShare}></GroupsIcon>
       </div>
     );
   }

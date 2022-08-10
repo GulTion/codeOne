@@ -149,11 +149,11 @@ export default connect((state) => ({ input: state.input }))(function Header({
           <MenuOpenIcon onClick={handleOen}></MenuOpenIcon>
         </div>
         <div className="flex center">
-          {mode && (
+          {/* {mode && (
             <QrCodeScanner onClick={handleShare}>
               <div id="render"></div>
             </QrCodeScanner>
-          )}
+          )} */}
 
           {mode && <SaveIcon onClick={Saver} className="Icons" />}
 
