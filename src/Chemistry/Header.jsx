@@ -15,6 +15,8 @@ import { QrCodeScanner, Scanner, ShareRounded } from "@mui/icons-material";
 import { Html5Qrcode, Html5QrcodeScanner } from "html5-qrcode";
 import { Select, MenuItem } from "@mui/material";
 import QRCode from "react-qr-code";
+import Options from "./Options";
+
 // import  from "@mui/material";
 export default connect((state) => ({ input: state.input }))(function Header({
   onRun,
@@ -84,7 +86,8 @@ export default connect((state) => ({ input: state.input }))(function Header({
         direction="left"
         enableOverlay={true}
       >
-        <h1>Options</h1>
+        {/* <h1>Options</h1> */}
+        <Options />
       </Drawe>
       <Drawe
         style={{

@@ -29,7 +29,6 @@ socket.on("connect", () => {
 export default function ShareEditor() {
   const a = useParams();
   const [sw, setSw] = useState(true);
-  // const hist = useHistory();
   const navigate = useNavigate();
   useEffect(() => {
     let id = localStorage.getItem("id");

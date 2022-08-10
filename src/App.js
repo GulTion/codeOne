@@ -16,6 +16,8 @@ import { Provider } from "react-redux";
 import { reducer } from "./Manager/reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 import ShareEditor from "./Editor/ShareEditor";
+import Settings from "./Chemistry/Settings";
+import About from "./Chemistry/About";
 export const store = createStore(reducer, composeWithDevTools());
 console.log(store.getState());
 export default function App() {
@@ -37,6 +39,8 @@ export default function App() {
             path="/share/:id/:fileid/:location"
             element={<ShareEditor />}
           />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/about" element={<About />} />
         </Routes>
 
         {/* <CodeIcon /> */}
