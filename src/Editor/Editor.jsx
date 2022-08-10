@@ -74,7 +74,7 @@ export default connect((state) => ({ file: state.file }))(function Editor({
 }) {
   const param = useParams();
   let set = JSON.parse(
-    localStorage.getItem("settings") || `{theme:"solarized_dark"}`
+    localStorage.getItem("settings") || `{"theme":"solarized_dark"}`
   );
 
   // const hist = useHistory();
