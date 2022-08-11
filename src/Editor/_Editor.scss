@@ -16,6 +16,13 @@
     height: calc(100% - 20px);
     font-size: 18px;
   }
+
+  .htmlOutput {
+    width: 100%;
+    background: white;
+    height: 100%;
+    overflow: scroll;
+  }
 }
 
 .Editor {

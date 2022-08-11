@@ -20,9 +20,17 @@ export default function Output({ output, setOut }) {
           {output.loading ? "LOADING.." : `Time: ${output.executionTime}ms`}
         </div>
       </div>
-      <pre className=" ace-solarized-dark ace_editor">
-        {output.loading ? "LOADING.." : output.exception || output.stdout}
-      </pre>
+
+      {output.language === "html" ? (
+        <div
+          className="htmlOutput"
+          dangerouslySetInnerHTML={{ __html: output.data }}
+        ></div>
+      ) : (
+        <pre className=" ace-solarized-dark ace_editor">
+          {output.loading ? "LOADING.." : output.exception || output.stdout}
+        </pre>
+      )}
       {/* <div>input</div> */}
     </div>
   );

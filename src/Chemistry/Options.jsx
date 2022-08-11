@@ -28,7 +28,7 @@ export default function Options() {
             </ListItemIcon>
             <ListItemText>About</ListItemText>
             <Typography variant="body2" color="text.secondary">
-              v2.7.0
+              v2.8.0
             </Typography>
           </MenuItem>
         </Link>

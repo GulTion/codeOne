@@ -6,6 +6,7 @@ import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-c_cpp";
 import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/mode-html";
 
 import "ace-builds/src-noconflict/theme-solarized_dark";
 import "ace-builds/src-noconflict/theme-ambiance";
@@ -95,14 +96,19 @@ export default connect((state) => ({ file: state.file }))(function Editor({
     if (!out) {
       // console.log("CODE");
       setOutput({ loading: true });
-      runRequest({ file })
-        .then((data) => {
-          console.log(data.data);
-          setOutput(data.data);
-        })
-        .catch((e) => {
-          console.error(e);
-        });
+      if (file.language === "html") {
+        console.log("html");
+        setOutput({ data: file.content, language: "html", executionTime: 0 });
+      } else {
+        runRequest({ file })
+          .then((data) => {
+            console.log(data.data);
+            setOutput(data.data);
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      }
     }
     setOut((k) => !k);
   };

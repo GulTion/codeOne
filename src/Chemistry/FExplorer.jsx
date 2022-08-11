@@ -23,6 +23,7 @@ const langMapImage = {
   cpp: "/icons/cpp.png",
   java: "/icons/java.svg",
   c: "/icons/c.png",
+  html: "/icons/html5.png",
 };
 const File = ({ file, onFileClick, currFile }) => {
   const handle = () => {
@@ -114,6 +115,7 @@ const langMap = {
   java: "java",
   c: "c",
   cpp: "cpp",
+  html: "html",
 };
 
 const languageSelector = (str) => {
