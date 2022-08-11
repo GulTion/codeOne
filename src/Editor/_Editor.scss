@@ -18,10 +18,16 @@
   }
 
   .htmlOutput {
-    width: 100%;
-    background: white;
+    iframe {
+      width: 100%;
+      // overflow: scroll;
+      background: white;
+      height: 100%;
+      border: none;
+    }
     height: 100%;
-    overflow: scroll;
+
+    background: white;
   }
 }
 

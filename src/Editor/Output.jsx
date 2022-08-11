@@ -24,7 +24,9 @@ export default function Output({ output, setOut }) {
       {output.language === "html" ? (
         <div
           className="htmlOutput"
-          dangerouslySetInnerHTML={{ __html: output.data }}
+          dangerouslySetInnerHTML={{
+            __html: `<iframe srcdoc="${output.data}"></iframe>`,
+          }}
         ></div>
       ) : (
         <pre className=" ace-solarized-dark ace_editor">
